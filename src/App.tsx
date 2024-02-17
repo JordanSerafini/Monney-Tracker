@@ -1,16 +1,19 @@
-import Header from "./components/Header";
-import Main from "./components/Main";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Home from "./components/pages/Home";
 
 import "./App.css";
 
-function App() {
+const App: React.FC = () => {
   return (
-    
+    <Router>
       <div className='flex flex-row gap-5'>
         <Header />
-        <Main />
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
       </div>
-  
+    </Router>
   );
 }
 
