@@ -59,20 +59,22 @@ function Main() {
 
   return (
     <div className="p-4 h-screen w-full">
-    <div className="flex flex-col gap-8 h-5/6">
-      <h2 className="text-xl font-bold mb-4">Dépenses</h2>
-      <div className="flex flex-row justify-evenly border-2 border-black p-2 h-4/5">
-        {users.map((user) => (
-          <div key={user.id} className="h-full flex flex-col">
-            <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
-            <div className="flex flex-col overflow-auto h-full">
-              {expensesByUser[user.id]?.map((expense) => (
-                <div key={expense.id} className="mb-3 p-2 shadow rounded">
-                  <p className="font-semibold">{
-expense.name}</p>
-<p>{expense.amount}€ - {new Date(expense.date).toLocaleDateString('fr-FR')}</p>
-<p>Catégorie: {expense.category}</p>
-</div>
+      <div className="flex flex-col gap-8 h-5/6">
+        <h2 className="text-xl font-bold mb-4">Dépenses</h2>
+        <div className="flex flex-row justify-evenly p-2 h-4/5">
+          {users.map((user) => (
+            <div key={user.id} className="h-full flex flex-col">
+              <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
+              <div className="flex flex-col overflow-auto h-full">
+                {expensesByUser[user.id]?.map((expense) => (
+                  <div key={expense.id} className="mb-3 p-2 shadow rounded border-r-2 border-spacing-2 ">
+                    <p className="font-semibold">{expense.name}</p>
+                    <p>
+                      {expense.amount}€ -{" "}
+                      {new Date(expense.date).toLocaleDateString("fr-FR")}
+                    </p>
+                    <p>Catégorie: {expense.category}</p>
+                  </div>
                 )) || <p>Cet utilisateur n'a pas de dépenses enregistrées.</p>}
               </div>
             </div>
