@@ -56,31 +56,40 @@ function Main() {
   }, {});
 
   return (
-    <div>
-      {users.map(user => (
-        <div key={user.id}>
-          <h2>{user.name}</h2>
-          {expensesByUser[user.id] ? (
-            <div>
-              {expensesByUser[user.id].map(expense => (
-                <div key={expense.id}>
-                  <p>{expense.name} - {expense.amount}€ - {expense.date} - {expense.category}</p>
+    <div className="container mx-auto p-4">
+      <div className="flex flex-wrap -mx-2"> 
+        <div className="w-full md:w-1/2 px-2 mb-4">
+          <h2 className="text-xl font-bold mb-4">Dépenses</h2>
+          {users.map((user) => (
+            <div key={user.id}>
+              <h3 className="text-lg font-semibold mb-2">{user.name} - Dépenses</h3>
+              {expensesByUser[user.id]?.map((expense) => (
+                <div key={expense.id} className="mb-3 p-2 shadow rounded">
+                  <p className="font-semibold">{expense.name}</p>
+                  <p>{expense.amount}€ - {expense.date}</p>
+                  <p>Catégorie: {expense.category}</p>
                 </div>
-              ))}
+              )) || <p>Cet utilisateur n'a pas de dépenses enregistrées.</p>}
             </div>
-          ) : (
-            <p>Cet utilisateur n'a pas de dépenses enregistrées.</p>
-          )}
+          ))}
         </div>
-      ))}
-      <button onClick={() => setShowModal(true)}>Ajouter une dépense</button>
-      <AddExpenseModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        users={users} 
-      />
+      </div>
+      <button 
+        onClick={() => setShowModal(true)}
+        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Ajouter une dépense
+      </button>
+      {showModal && (
+        <AddExpenseModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          users={users} 
+        />
+      )}
     </div>
   );
 }
 
 export default Main;
+
