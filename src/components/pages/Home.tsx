@@ -59,12 +59,12 @@ function Main() {
     <div className=" mx-auto p-4 w-full">
       <div className="flex flex-col gap-8 flex-wrap"> 
           <h2 className="text-xl font-bold mb-4">Dépenses</h2>
-        <div className=" md:w-1/2 px-2 mb-4 flex flex-row justify-evenly border-2 border-black p-2">
+        <div className=" md:w-1/2 px-2 mb-4 flex flex-row justify-evenly border-2 border-black p-2 ">
          
           {/* Affichez les dépenses par utilisateur */}
           {users.map((user) => (
-            <div key={user.id}>
-              <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
+            <div key={user.id} className='overflow-scroll max-h-32'>
+              <h3 className="text-lg font-semibold mb-2 ">{user.name}</h3>
               {expensesByUser[user.id]?.map((expense) => (
                 <div key={expense.id} className="mb-3 p-2 shadow rounded">
                   <p className="font-semibold">{expense.name}</p>
