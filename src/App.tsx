@@ -7,7 +7,7 @@ import "./App.css";
 const App: React.FC = () => {
   return (
     <Router>
-      <div className='flex flex-row gap-5'>
+<div className='w-full h-screen bg-blue-200 flex flex-col items-center justify-center'>
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
