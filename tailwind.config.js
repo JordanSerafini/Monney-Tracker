@@ -45,11 +45,11 @@ export default {
         'xxxs': '.4rem',
       },
       colors: {
-        'primary': '#F7F6CF',
-        'secondary': '#B6D8F2',
-        'tertiary': '#F4CFDF',
-        'quaternary': '#5784BA',
-        'quinary': '#9AC8EB',
+        'c1': '#F7F6CF',
+        'c2': '#B6D8F2',
+        'c3': '#F4CFDF',
+        'c4': '#5784BA',
+        'c5': '#9AC8EB',
       },
 
       fontFamily: {
