@@ -55,6 +55,7 @@ export default {
       fontFamily: {
         'lato': ['Lato', 'sans-serif'],
         'playfair': ['Playfair Display', 'serif'],
+        'Dancing': ['Dancing Script', 'cursive'],
       },
     },
   },
