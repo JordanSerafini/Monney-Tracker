@@ -100,11 +100,11 @@ const marieTotal = marieExpenses.reduce((acc, expense) => acc + expense.amount, 
               
                 {/* Affiche MAP dépenses de l'utilisateur par ID*/}
                 {expensesByUser[user.id]?.map((expense) => (
-                  <div key={expense.id} className="text-xs flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing bg-c1 text-c4 items-center justify-evenly">
+                  <div key={expense.id} className="text-xs overflow-hidden flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing bg-c1 text-c4 items-center justify-between">
                     <p className="font-semibold">{expense.name}</p>
                     <p>
-                      {expense.amount}€ -{" "}
-                      {new Date(expense.date).toLocaleDateString("fr-FR")}
+                      {expense.amount}€ {"le "}
+                      {new Date(expense.date).toLocaleDateString("fr-FR", { day: '2-digit' })}
                     </p>
                     <p>{expense.category}</p>
               
