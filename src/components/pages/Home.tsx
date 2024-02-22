@@ -72,7 +72,7 @@ function Main() {
 const refreshExpenses = async () => {
   try {
     const response = await axios.get("http://localhost:5000/expense");
-    setExpenses(response.data); // Assurez-vous que `setExpenses` est défini pour mettre à jour le state des dépenses
+    setExpenses(response.data); 
   } catch (error) {
     console.error(error);
   }
@@ -81,14 +81,14 @@ const refreshExpenses = async () => {
   return (
     <div className="p-4 h-screen w-full">
       <div className="flex flex-col gap-8 h-5/6">
-        <h2 className="text-xl font-bold mb-4">Dépenses</h2>
-        <div className="flex flex-row justify-evenly p-2 h-4/5">
+        <h2 className="text-xl font-bold mb-4 ">Dépenses</h2>
+        <div className="flex flex-row justify-evenly p-2 h-4/5 gap-6">
           {users.map((user) => (
-            <div key={user.id} className="h-full flex flex-col">
+            <div key={user.id} className="h-full flex flex-col bg-white rounded-lg gap-2 w-2/3 p-2">
               <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
-              <div className="flex flex-col overflow-auto h-full">
+              <div className="flex flex-col overflow-auto h-full gap-8 justify-start">
                 {expensesByUser[user.id]?.map((expense) => (
-                  <div key={expense.id} className="mb-3 p-2 shadow rounded border-r-2 border-spacing-2 ">
+                  <div key={expense.id} className="text-xs flex flex-col gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary ">
                     <p className="font-semibold">{expense.name}</p>
                     <p>
                       {expense.amount}€ -{" "}

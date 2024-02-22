@@ -47,7 +47,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   if (!showModal) return null;
 
   return (
-    <div className="modal-backdrop">
+    <div className="fixed top-1/3 left-2 w-7/10 h-5/10 border-2 bg-white border-tertiary">
       <div className="modal">
         <form onSubmit={handleAddExpense}>
           <label htmlFor="user">Utilisateur :</label>
