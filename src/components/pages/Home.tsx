@@ -85,17 +85,19 @@ const jordanTotal = jordanExpenses.reduce((acc, expense) => acc + expense.amount
 const marieTotal = marieExpenses.reduce((acc, expense) => acc + expense.amount, 0);
 
   return (
-    <div className="p-4 h-screen w-full">
+    <div className="p-4 h-screen w-full text-xs sm:text-base">
       <div className="flex flex-col  h-9/10 justify-stard">
-        <h2 className="text-xl font-bold mb-4 border-b-2 border-c2 pb-4 text-c2">Dépenses</h2>
+        <h2 className="text-xl font-bold mb-4 border-b-2 border-c2 pb-4 text-c2 ">Dépenses</h2>
         
         {/* Affiche les dépenses par utilisateur */}
-        <div className="flex flex-row justify-evenly p-2 h-4/5 gap-6">
+        <div className="flex flex-row justify-evenly p-2 h-4/5 gap-6 ">
           {users.map((user) => (
-            <div key={user.id} className="h-full flex flex-col bg-white border-2 gap-2 w-2/3 p-2">
+            <div key={user.id} className="h-full flex flex-col bg-white border-2 gap-2 w-1/2 p-2">
+
               {/* Affiche le nom de l'utilisateur */}
               <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
               <div className="flex flex-col overflow-auto h-full gap-8 justify-start">
+              
                 {/* Affiche MAP dépenses de l'utilisateur par ID*/}
                 {expensesByUser[user.id]?.map((expense) => (
                   <div key={expense.id} className="text-xs flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing bg-c1 text-c4 items-center justify-evenly">
@@ -105,6 +107,7 @@ const marieTotal = marieExpenses.reduce((acc, expense) => acc + expense.amount, 
                       {new Date(expense.date).toLocaleDateString("fr-FR")}
                     </p>
                     <p>{expense.category}</p>
+              
                     {/* Affiche le bouton pour supprimer une dépense */}
                     <button
                       onClick={() => deleteExpense(expense.id)}
