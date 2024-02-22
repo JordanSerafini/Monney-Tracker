@@ -11,14 +11,14 @@ interface AddExpenseModalProps {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
   users: User[];
-  refreshExpenses?: () => Promise<void>; // Optionnel si vous décidez de l'implémenter plus tard
+  refreshExpenses?: () => Promise<void>; 
 }
 
 const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   showModal,
   setShowModal,
   users,
-  refreshExpenses // Ajouté ici pour l'exemple, supprimez si non utilisé
+  refreshExpenses 
 }) => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
@@ -38,7 +38,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
       };
       await axios.post('http://localhost:5000/expense', expense);
       setShowModal(false);
-      if (refreshExpenses) refreshExpenses(); // Actualise les dépenses si la fonction est fournie
+      if (refreshExpenses) refreshExpenses();
     } catch (error) {
       console.error(error);
     }

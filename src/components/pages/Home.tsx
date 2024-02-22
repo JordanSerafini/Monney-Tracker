@@ -57,6 +57,27 @@ function Main() {
     {}
   );
 
+  // Fonction pour supprimer une dépense
+  const deleteExpense = async (expenseId: string) => {
+    try {
+      await axios.delete(`http://localhost:5000/expense/${expenseId}`);
+      // Supprime la dépense du state pour mettre à jour l'UI
+      setExpenses(expenses.filter(expense => expense.id !== expenseId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+const refreshExpenses = async () => {
+  try {
+    const response = await axios.get("http://localhost:5000/expense");
+    setExpenses(response.data); // Assurez-vous que `setExpenses` est défini pour mettre à jour le state des dépenses
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
     <div className="p-4 h-screen w-full">
       <div className="flex flex-col gap-8 h-5/6">
@@ -74,6 +95,12 @@ function Main() {
                       {new Date(expense.date).toLocaleDateString("fr-FR")}
                     </p>
                     <p>Catégorie: {expense.category}</p>
+                    <button
+                      onClick={() => deleteExpense(expense.id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Supprimer
+                    </button>
                   </div>
                 )) || <p>Cet utilisateur n'a pas de dépenses enregistrées.</p>}
               </div>
@@ -92,6 +119,7 @@ function Main() {
           showModal={showModal}
           setShowModal={setShowModal}
           users={users}
+          refreshExpenses={refreshExpenses}
         />
       )}
     </div>
