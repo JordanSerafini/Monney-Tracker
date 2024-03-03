@@ -22,59 +22,35 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
 }) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const [date] = useState<string>("");
+  const [date, setDate] = useState<string>("");
   const [selectedUserId, setSelectedUserId] = useState<string>("");
-  const [category, setCategory] = useState<Array<string>>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const handleAddExpense = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      try {
-        const expense = {
-          name: title,
-          amount: Number(amount),
-          date,
-          category,
-          utilisateur_id: selectedUserId,
-        };
-        await axios.post("http://localhost:5000/expense", expense);
-        setShowModal(false);
-        refreshExpenses?.();
-      } catch (error) {
-        console.error(error);
-        // Ici, ajoutez la gestion des erreurs (par exemple, un état pour afficher un message d'erreur)
+  // Définition des catégories disponibles
+  const categories = ["Courses", "Appartement", "Autre"];
+
+  const handleAddExpense = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const expense = {
+        name: title,
+        amount: Number(amount),
+        date,
+        utilisateur_id: selectedUserId,
+        category: selectedCategory, // Utilisez la catégorie sélectionnée
+      };
+      await axios.post("http://localhost:5000/expense", expense);
+      setShowModal(false);
+      if (refreshExpenses) {
+        refreshExpenses();
       }
-    },
-    [
-      title,
-      amount,
-      date,
-      category,
-      selectedUserId,
-      refreshExpenses,
-      setShowModal,
-    ]
-  );
-
-  const handleCategoryChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedOptions = Array.from(
-        e.target.selectedOptions,
-        (option) => option.value
-      );
-      setCategory(selectedOptions);
-    },
-    []
-  );
-
-  // Convertissez le tableau des catégories en chaîne de caractères pour l'affichage
-  const selectedCategoriesText =
-    category.length > 0
-      ? category.join(", ")
-      : "Sélectionnez une ou plusieurs catégories";
+    } catch (error) {
+      console.error(error);
+    }
+  }, [title, amount, date, selectedCategory, selectedUserId, refreshExpenses, setShowModal]);
 
   if (!showModal) return null;
+
 
   return (
     <div className="fixed inset-0 flex justify-center items-center">
@@ -124,32 +100,31 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
               required
             />
           </div>
+              {/* Date */}
+              <div>
+            <label htmlFor="date">Date :</label>
+            <input id="date" type="date" value={date} onChange={e => setDate(e.target.value)} required />
 
-          {/* Catégorie */}
-          <div className="flex flex-row gap-2">
+          </div>
+           {/* Catégorie */}
+           <div>
             <label htmlFor="category">Catégorie :</label>
-            <div
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="cursor-pointer"
+            <select
+              id="category"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              required
             >
-              {selectedCategoriesText}
-            </div>
-            {isDropdownOpen && (
-              <select
-                id="category"
-                value={category}
-                onChange={handleCategoryChange}
-                multiple
-                size={5}
-                className="w-full"
-              >
-                <option value="Courses">Courses</option>
-                <option value="Appartement">Appartement</option>
-                <option value="Autres">Autres</option>
-              </select>
-            )}
+              <option value="">Sélectionnez une catégorie</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
 
+         
           {/* Boutons */}
           <div className="flex flex-row justify-evenly">
             <button
