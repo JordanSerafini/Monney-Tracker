@@ -96,14 +96,14 @@ function Main() {
   );
 
   return (
-    <div className="p-4 h-screen w-full text-xs sm:text-base">
+    <div className=" h-screen w-9.5/10 text-xs sm:text-base">
       <div className="flex flex-col  h-9/10 justify-stard">
-        <h2 className="text-xl font-bold mb-4 border-b-2 border-c2 pb-4 text-c2 ">
+        <h2 className="text-xl font-bold border-b-2 border-c2 pb-4 p-2 text-c2 ">
           Dépenses
         </h2>
 
         {/* Affiche les dépenses par utilisateur */}
-        <div className="flex flex-row justify-evenly p-2 h-9/10 gap-6 ">
+        <div className="flex flex-row justify-evenly py-4 h-9/10  w-10/10">
           {users.map((user) => (
             <div
               key={user.id}
@@ -116,7 +116,7 @@ function Main() {
                 {expensesByUser[user.id]?.map((expense) => (
                   <div
                     key={expense.id}
-                    className="min-h-12 text-xs overflow-hidden flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing  text-c4 items-center justify-between"
+                    className="min-h-12 w-9/10 text-xs overflow-hidden flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing  text-c4 items-center justify-between"
                   >
                     <div className="">
                       <p className="font-semibold">{expense.category}</p>

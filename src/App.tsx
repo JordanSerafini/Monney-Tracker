@@ -7,7 +7,7 @@ import "./App.css";
 const App: React.FC = () => {
   return (
     <Router>
-<div className='w-full h-screen bg-gray-100 flex flex-col items-center justify-center'>
+<div className='w-10/10 h-screen bg-gray-100 flex flex-col items-center justify-center'>
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
