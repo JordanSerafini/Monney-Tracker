@@ -23,8 +23,9 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
-  const [category, setCategory] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
+  const [category, setCategory] = useState<string[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State pour gérer l'ouverture du menu déroulant
 
   const handleAddExpense = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,12 +50,8 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div className="m-auto bg-white border-4 border-c2 rounded-lg w-8.5/10 shadow-2xl">
-        {/* Tout le formulaire */}
-        <form 
-        onSubmit={handleAddExpense}
-        className="flex flex-col justify-between p-2"
-        >
-          <label htmlFor="user"></label>
+        <form onSubmit={handleAddExpense} className="flex flex-col justify-between p-2">
+          <label htmlFor="user">Utilisateur :</label>
           <select
             id="user"
             value={selectedUserId}
@@ -93,27 +90,52 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            
+            required
           />
-
-          <label htmlFor="category">Catégorie :</label>
-          <input
-            id="category"
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            
-          />
+          
+          {/* Menu déroulant pour la catégorie */}
+          <div>
+            <label htmlFor="category">Catégorie :</label>
+            <div className="relative">
+              <button
+                type="button"
+                className="w-full text-left bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-haspopup="listbox"
+                aria-expanded={isDropdownOpen ? "true" : "false"}
+              >
+                Sélectionnez une ou plusieurs catégories
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
+                  <select
+                    id="category"
+                    value={category}
+                    onChange={(e) => setCategory(Array.from(e.target.selectedOptions, option => option.value))}
+                    multiple
+                    size={5}
+                    className="w-full"
+                  >
+                    <option value="option1">Courses</option>
+                    <option value="option2">Appartement</option>
+                    <option value="option3">Autres</option>
+                  </select>
+                </div>
+              )}
+            </div>
+          </div>
 
           <div className="flex flex-row justify-evenly">
             <button 
-            type="submit"
-            className="bg-c1 text-c4 p-2 rounded shadow-md hover:bg-c2 hover:text-c1 transition-all duration-300 ease-in-out"
-            >Ajouter</button>
+              type="submit"
+              className="bg-c1 text-c4 p-2 rounded shadow-md hover:bg-c2 hover:text-c1 transition-all duration-300 ease-in-out"
+            >
+              Ajouter
+            </button>
             <button 
-            type="button" 
-            onClick={() => setShowModal(false)}
-            className="bg-red-500 text-white p-2 rounded shadow-md hover:bg-red-700 transition-all duration-300 ease-in-out"
+              type="button" 
+              onClick={() => setShowModal(false)}
+              className="bg-red-500 text-white p-2 rounded shadow-md hover:bg-red-700 transition-all duration-300 ease-in-out"
             >
               Annuler
             </button>

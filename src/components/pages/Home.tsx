@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AddExpenseModal from "../modals/AddExpenseModal";
 
+import trashLogo from "../../assets/trashLogo.png";
+
 interface User {
   id: string;
   name: string;
@@ -101,7 +103,7 @@ const marieTotal = marieExpenses.reduce((acc, expense) => acc + expense.amount, 
                 {/* Affiche MAP dépenses de l'utilisateur par ID*/}
                 {expensesByUser[user.id]?.map((expense) => (
                   <div key={expense.id} className="text-xs overflow-hidden flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing bg-c1 text-c4 items-center justify-between">
-                    <p className="font-semibold">{expense.name}</p>
+                    <p className="font-semibold">{expense.category}</p>
                     <p>
                       {expense.amount}€ {"le "}
                       {new Date(expense.date).toLocaleDateString("fr-FR", { day: '2-digit' })}
@@ -109,14 +111,15 @@ const marieTotal = marieExpenses.reduce((acc, expense) => acc + expense.amount, 
                     <p>{expense.category}</p>
               
                     {/* Affiche le bouton pour supprimer une dépense */}
-                    <button
-                      onClick={() => deleteExpense(expense.id)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                    >
+                   
+                      
+                   
+                      <img src={trashLogo} alt=""onClick={() => deleteExpense(expense.id)}
+                      className="h-8 w-8" />
 
                       
-                      X
-                    </button>
+                      
+                   
                   </div>
                 )) || <p>Cet utilisateur n'a pas de dépenses enregistrées.</p>}
               </div>
