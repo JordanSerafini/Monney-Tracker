@@ -50,12 +50,17 @@ export default {
         'c3': '#F4CFDF',
         'c4': '#5784BA',
         'c5': '#9AC8EB',
+        'green-base': '#A1D6B0',
+        'green-light': '#D9F3E4',
+        'blue-base': '#B6D8F2',
+        'pink-base': '#F4CFDF',
       },
 
       fontFamily: {
         'lato': ['Lato', 'sans-serif'],
         'playfair': ['Playfair Display', 'serif'],
         'Dancing': ['Dancing Script', 'cursive'],
+        'Shadows-Into-Light': ['Shadows-Into-Light', 'cursive'],
       },
     },
   },

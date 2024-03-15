@@ -95,6 +95,20 @@ function Main() {
     0
   );
 
+
+  function getCategoryClass(category:string) {
+    switch (category) {
+      case 'Courses':
+        return 'bg-green-light';
+      case 'Appartement':
+        return 'bg-blue-base';
+      // Ajoutez autant de cas que vous avez de catégories avec des styles différents...
+      default:
+        return 'bg-gray-100';
+    }
+  }
+  
+
   return (
     <div className=" h-screen w-screen text-xs sm:text-base flex justify-center items-center">
       <div className="flex flex-col h-9.5/10 w-8.5/10 justify-stard bg-white rounded-xl">
@@ -109,16 +123,16 @@ function Main() {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="h-full flex flex-col bg-white border-2 gap-2 w-1/2 p-2"
+                className="h-full flex flex-col bg-white border- gap-2 w-10/10 p-2 justify-center items-center"
               >
                 {/* Affiche le nom de l'utilisateur */}
                 <h3 className="text-lg font-semibold mb-2">{user.name}</h3>
-                <div className="flex flex-col overflow-auto h-10/10 gap-1 justify-start">
+                <div className="flex flex-col overflow-auto h-full w-full gap-2 justify-start bg-">
                   {/* Affiche MAP dépenses de l'utilisateur par ID*/}
                   {expensesByUser[user.id]?.map((expense) => (
                     <div
                       key={expense.id}
-                      className="min-h-12 w-9/10 text-xs overflow-hidden flex flex-row gap-2 mb-3 p-2 shadow rounded border-r-2 border-spacing-2 bg-quaternary  font-Dancing  text-c4 items-center justify-between"
+                      className={`flex flex-row w-full items-center justify-between p-2 rounded-xl font-Shadows-Into-Light text-gray-50 ${getCategoryClass(expense.category)}`}
                     >
                       <div className="">
                         <p className="font-semibold">{expense.category}</p>
