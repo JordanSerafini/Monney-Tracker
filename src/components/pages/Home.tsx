@@ -136,14 +136,7 @@ function Main() {
                     >
                       <div className="">
                         <p className="font-semibold">{expense.category}</p>
-                        {/*
-                    <p>
-                    {new Date(expense.date).toLocaleDateString("fr-FR", { day: '2-digit' })}
-                     {"le "}expense.date
-                    </p>
-                  */}
-                        {/* Affiche le bouton pour supprimer une dépense */}
-
+          
                         <p> {expense.amount}€</p>
                       </div>
 
