@@ -168,7 +168,6 @@ function Main() {
           </div>
         </section>
         <section>
-          {/* Bouton pour ajouter une dépense */}
           <button
             onClick={() => setShowModal(true)}
             className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2"
