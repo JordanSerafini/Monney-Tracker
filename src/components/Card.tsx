@@ -1,5 +1,8 @@
 import { Expense } from "./pages/Home";
 
+import loupe from "../assets/loupe.png";
+import {  useState } from "react";
+
 interface CardProps {
   cards: Expense[];
   deleteExpense: (expenseId: string) => void;
@@ -7,6 +10,9 @@ interface CardProps {
 }
 
 function Card({ cards, deleteExpense, fetchData }: CardProps) {
+
+  const [isDetail, setIsDetail] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<Expense | null>(null);
 
   function convertToDayMonth(isoDate: string) {
     const date = new Date(isoDate);
@@ -34,35 +40,51 @@ function Card({ cards, deleteExpense, fetchData }: CardProps) {
       default:
         return "bg-gray-500";
     }
-  }
+  };
+
+  const handleDetail = (id: string) => {
+    setSelectedCard(cards.find((card) => card.id === id) || null);
+    setIsDetail(!isDetail);
+  };
+
+  console.log(selectedCard);
+
 
   return (
     <div className="flex flex-col gap-2 text-xs p-2">
       {cards.map((card) => (
         <div
           key={card.id}
-          className="relative border-1 p-2 flex flex-row w-9.5/10 justify-between bg-white-perso2"
+          className="relative border-1 p-2 flex flex-row w-full justify-between bg-white-perso2"
         >
           <div className="flex flex-row justify-between w-9/10">
-            <div className="flex flex-col h-full justify-between">
-              <div>{card.name}</div>
-              <div>{card.amount} €</div>
-            </div>
-            <div className="flex flex-col items-end">
-              <div>{convertToDayMonth(card.date)}</div>
-              <div className={`${getCatColor(card.category)} px-4 py-1 text-white-perso mt-2`}>{card.category}</div>
-            </div>
+            {isDetail ? (
+              <div className="w-full">
+                <div>{card.name}</div>
+                <img src={loupe} alt="" className="w-6" onClick={() => handleDetail(card.id)} />
+
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-col h-full justify-between">
+                  <div>{card.amount} €</div>
+                  <img src={loupe} alt="" className="w-6" onClick={() => handleDetail(card.id)} />
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="mr-3">{convertToDayMonth(card.date)}</div>
+                  <div className={`${getCatColor(card.category)} px-4 py-1 text-white-perso mt-2`}>
+                    {card.category}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          <div
-            className="absolute right-2"
-            onClick={() => handleClick(card.id)}
-          >
-            X
-          </div>
+          <div className="absolute right-2" onClick={() => handleClick(card.id)}>X</div>
         </div>
       ))}
     </div>
   );
+  
 }
 
 export default Card;
