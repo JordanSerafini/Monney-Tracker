@@ -72,24 +72,30 @@ function Main() {
     return totalRounded;
   };
 
-  const getDifference = (marieExpenses: Expense[], jordanExpenses: Expense[]) => {
+  const getDifference = (
+    marieExpenses: Expense[],
+    jordanExpenses: Expense[]
+  ) => {
     const marieTotal = getTotal(marieExpenses);
     const jordanTotal = getTotal(jordanExpenses);
     const difference = marieTotal - jordanTotal;
     if (difference > 0) {
-      return("Jordan doit à Marie" + parseFloat(difference.toFixed(2)) + " €");
+      return "Jordan doit à Marie" + parseFloat(difference.toFixed(2)) + " €";
     } else if (difference < 0) {
-      return("Marie doit à Jordan " + parseFloat(difference.toFixed(2)) + " €");
+      return "Marie doit à Jordan " + parseFloat(difference.toFixed(2)) + " €";
     } else {
-      return("Les comptes sont à jour");
+      return "Les comptes sont à jour";
     }
   };
 
   return (
-    <div className="h-screen w-screen bg-gray-light3 flex flex-col font-Poppins items-center justify-center  gap-2">
-      <div className="flex flex-row w-full h-9/10 ">
-        <section className="w-5/10 flex-col flex overflow-auto  gap-2">
-          <div>Jordan</div>
+    <div className="h-screen w-screen bg-gray-light3 flex flex-col font-Poppins items-center gap-2 ">
+      <div className="flex flex-row w-full min-h-8.5/10 pt-2 ">
+        <section className="w-5/10 h-10/10 flex-col flex overflow-auto">
+          {/* -------------------------------------------------------------------------------------------------------------------------------------------- */}
+
+          <div className="w-full text-center">Jordan</div>
+          {/* -------------------------------------------------------------------------------------------------------------------------------------------- */}
           <div className=" h-10/10 overflow-auto">
             <Card
               cards={jordanExpenses}
@@ -97,12 +103,12 @@ function Main() {
               fetchData={fetchData}
             />
           </div>
-            <div className="flex flex-row w-9/10 gap-2 justify-end ">
-              Total: <span>{getTotal(jordanExpenses)} €</span>
-            </div>
+          <div className="flex flex-row w-9/10 gap-2 justify-end pt-2">
+            Total: <span>{getTotal(jordanExpenses)} €</span>
+          </div>
         </section>
-        <section className="w-5/10 flex-col flex overflow-auto  gap-2">
-          <div>Marie</div>
+        <section className="w-5/10 h-10/10 flex-col flex overflow-auto">
+          <div className="w-full text-center">Marie</div>
           <div className=" h-10/10 overflow-auto">
             <Card
               cards={marieExpenses}
@@ -110,14 +116,14 @@ function Main() {
               fetchData={fetchData}
             />
           </div>
-            <div className="flex flex-row w-9/10 gap-2 justify-end ">
-              Total: <span>{getTotal(marieExpenses)} €</span>
-            </div>
+          <div className="flex flex-row w-9/10 gap-2 justify-end pt-2">
+            Total: <span>{getTotal(marieExpenses)} €</span>
+          </div>
         </section>
       </div>
-      <div className="flex flex-col w-9.5/10 h-full">
-        <div className="w-full flex flex-row items-center ju">
-          {getDifference(marieExpenses, jordanExpenses) }
+      <div className="flex flex-col w-full h-full justify-center items-center">
+        <div className="w-full justify-center flex flex-row items-center">
+          {getDifference(marieExpenses, jordanExpenses)}
         </div>
         <div className="w-full h-full">
           <button

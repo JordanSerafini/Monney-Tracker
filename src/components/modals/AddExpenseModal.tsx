@@ -73,7 +73,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
       className="fixed inset-0 flex justify-center items-center bg-gray-strong"
       onClick={(e) => handleOutClick(e)}
     >
-      <div className="m-auto bg-white border-4 border-c2 rounded-lg h-8/10 w-8.5/10 shadow-2xl justify-evenly">
+      <div className="m-auto bg-white border-4 border-c2 rounded-lg h-4.5/10 w-8.5/10 shadow-2xl justify-evenly">
         <form
           onSubmit={handleAddExpense}
           className="flex flex-col justify-between p-2 gap-5"
