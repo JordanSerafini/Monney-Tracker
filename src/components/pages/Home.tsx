@@ -47,7 +47,7 @@ function Main() {
 
   const refreshExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/expense");
+      const response = await axios.get("https://monney-traker-8d4a3e6cdc56.herokuapp.com/expense");
       setExpenses(response.data);
       console.log("Données mises à jour");
     } catch (error) {
@@ -57,7 +57,7 @@ function Main() {
 
   const deleteExpense = async (expenseId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/expense/${expenseId}`);
+      await axios.delete(`https://monney-traker-8d4a3e6cdc56.herokuapp.com/expense/${expenseId}`);
       setExpenses(expenses.filter((expense) => expense.id !== expenseId));
       refreshExpenses();
     } catch (error) {

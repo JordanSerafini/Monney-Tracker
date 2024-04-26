@@ -40,7 +40,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
           category: selectedCategory,
         };
 
-        await axios.post("http://localhost:5000/expense", expense);
+        await axios.post("https://monney-traker-8d4a3e6cdc56.herokuapp.com/expense", expense);
         setShowModal(false);
         if (refreshExpenses) {
           refreshExpenses();
