@@ -6,7 +6,7 @@ import Card from "../Card";
 export interface Expense {
   id: string;
   name: string;
-  amount: number;
+  amount: string;
   date: string;
   utilisateur_id: string;
   category: string;
@@ -20,9 +20,7 @@ function Main() {
 
   const fetchData = async () => {
     try {
-      const expensesResponse = await axios.get(
-        "http://localhost:5000/expense"
-      );
+      const expensesResponse = await axios.get("http://localhost:5000/expense");
       const expensesData = expensesResponse.data;
 
       setExpenses(expensesData);
@@ -30,6 +28,7 @@ function Main() {
       console.error("Erreur lors de la récupération des données :", error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,7 +44,6 @@ function Main() {
     );
     setJordanExpenses(jordanExpenses);
   }, [expenses]);
-
 
   const refreshExpenses = async () => {
     try {
@@ -67,18 +65,73 @@ function Main() {
     }
   };
 
+  const getTotal = (expenses: Expense[]): number => {
+    const totalArray = expenses.map((expense) => parseFloat(expense.amount));
+    const total = totalArray.reduce((sum, current) => sum + current, 0);
+    const totalRounded = parseFloat(total.toFixed(2));
+    return totalRounded;
+  };
+
+  const getDifference = (marieExpenses: Expense[], jordanExpenses: Expense[]) => {
+    const marieTotal = getTotal(marieExpenses);
+    const jordanTotal = getTotal(jordanExpenses);
+    const difference = marieTotal - jordanTotal;
+    if (difference > 0) {
+      return("Jordan doit à Marie" + parseFloat(difference.toFixed(2)) + " €");
+    } else if (difference < 0) {
+      return("Marie doit à Jordan " + parseFloat(difference.toFixed(2)) + " €");
+    } else {
+      return("Les comptes sont à jour");
+    }
+  };
+
   return (
-    <div className="h-screen w-screen bg-gray-light3 flex flex-col">
+    <div className="h-screen w-screen bg-gray-light3 flex flex-col font-Poppins items-center justify-center  gap-2">
       <div className="flex flex-row w-full h-9/10 ">
-        <section className="w-5/10  flex-col flex overflow-auto">
+        <section className="w-5/10 flex-col flex overflow-auto  gap-2">
           <div>Jordan</div>
-          <div>
-            < Card cards={jordanExpenses} deleteExpense={deleteExpense}  />
+          <div className=" h-10/10 overflow-auto">
+            <Card
+              cards={jordanExpenses}
+              deleteExpense={deleteExpense}
+              fetchData={fetchData}
+            />
           </div>
+            <div className="flex flex-row w-9/10 gap-2 justify-end ">
+              Total: <span>{getTotal(jordanExpenses)} €</span>
+            </div>
         </section>
-        <section className="w-5/10">
-          marie
-          </section>
+        <section className="w-5/10 flex-col flex overflow-auto  gap-2">
+          <div>Marie</div>
+          <div className=" h-10/10 overflow-auto">
+            <Card
+              cards={marieExpenses}
+              deleteExpense={deleteExpense}
+              fetchData={fetchData}
+            />
+          </div>
+            <div className="flex flex-row w-9/10 gap-2 justify-end ">
+              Total: <span>{getTotal(marieExpenses)} €</span>
+            </div>
+        </section>
+      </div>
+      <div className="flex flex-col w-9.5/10 h-full">
+        <div className="w-full flex flex-row items-center ju">
+          {getDifference(marieExpenses, jordanExpenses) }
+        </div>
+        <div className="w-full h-full">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            onClick={() => setShowModal(true)}
+          >
+            Ajouter une dépense
+          </button>
+          <AddExpenseModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            refreshExpenses={refreshExpenses}
+          />
+        </div>
       </div>
     </div>
   );

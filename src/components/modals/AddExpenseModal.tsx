@@ -1,41 +1,31 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 interface AddExpenseModalProps {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
-  users: User[];
   refreshExpenses?: () => Promise<void>;
 }
 
 const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   showModal,
   setShowModal,
-  users,
   refreshExpenses,
 }) => {
   // Définit les états
-  const currentDate = new Date().toISOString().split("T")[0]; 
+  const currentDate = new Date().toISOString().split("T")[0];
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
   const [date, setDate] = useState<string>(currentDate); // Date par défaut
-  const [selectedUserId, setSelectedUserId] = useState<string>(
-    users[0]?.id || ""
-  ); // Définit un utilisateur par défaut ou une valeur vide
+  const [selectedUserId, setSelectedUserId] = useState<string>(); // Définit un utilisateur par défaut ou une valeur vide
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const categories = ["Courses", "Appartement", "Autre"];
+  const categories = ["Courses", "Appartement", "Autres", "Avances"];
 
   const handleAddExpense = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      
+
       if (!selectedUserId || !title || !amount || !date || !selectedCategory) {
         console.error("Tous les champs sont obligatoires");
         return;
@@ -59,34 +49,50 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
         console.error("Erreur lors de l'ajout de la dépense :", error);
       }
     },
-    [title, amount, date, selectedCategory, selectedUserId, refreshExpenses, setShowModal]
+    [
+      title,
+      amount,
+      date,
+      selectedCategory,
+      selectedUserId,
+      refreshExpenses,
+      setShowModal,
+    ]
   );
+
+  const handleOutClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setShowModal(false);
+    }
+  };
 
   if (!showModal) return null;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center">
-      <div className="m-auto bg-white border-4 border-c2 rounded-lg w-8.5/10 shadow-2xl">
-        <form onSubmit={handleAddExpense} className="flex flex-col justify-between p-2">
+    <div
+      className="fixed inset-0 flex justify-center items-center bg-gray-strong"
+      onClick={(e) => handleOutClick(e)}
+    >
+      <div className="m-auto bg-white border-4 border-c2 rounded-lg h-8/10 w-8.5/10 shadow-2xl justify-evenly">
+        <form
+          onSubmit={handleAddExpense}
+          className="flex flex-col justify-between p-2 gap-5"
+        >
           {/* Sélection de l'utilisateur */}
           <div>
             <label htmlFor="user">Utilisateur :</label>
             <select
               id="user"
               value={selectedUserId}
-              onChange={(e) => setSelectedUserId(e.target.value)}
-              required
+              onChange={(e) => setSelectedUserId(e.target.value)} 
+              required 
             >
               <option value="">Sélectionnez un utilisateur</option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-              </select>
+              <option value={2}>Jordan</option>
+              <option value={1}>Marie</option>
+            </select>
           </div>
 
-          {/* Autres champs (titre, montant, date, catégorie) */}
           <div>
             <label htmlFor="title">Titre :</label>
             <input
