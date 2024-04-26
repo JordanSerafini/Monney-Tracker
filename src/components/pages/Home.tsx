@@ -20,7 +20,7 @@ function Main() {
 
   const fetchData = async () => {
     try {
-      const expensesResponse = await axios.get("http://localhost:5000/expense");
+      const expensesResponse = await axios.get("https://monney-traker-8d4a3e6cdc56.herokuapp.com/expense");
       const expensesData = expensesResponse.data;
 
       setExpenses(expensesData);
