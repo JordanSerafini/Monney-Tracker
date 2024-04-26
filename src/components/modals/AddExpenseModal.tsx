@@ -20,46 +20,55 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   users,
   refreshExpenses,
 }) => {
+  // Définit les états
+  const currentDate = new Date().toISOString().split("T")[0]; 
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [date, setDate] = useState<string>(currentDate); // Date par défaut
+  const [selectedUserId, setSelectedUserId] = useState<string>(
+    users[0]?.id || ""
+  ); // Définit un utilisateur par défaut ou une valeur vide
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  // Définition des catégories disponibles
   const categories = ["Courses", "Appartement", "Autre"];
 
-  const handleAddExpense = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const expense = {
-        name: title,
-        amount: Number(amount),
-        date,
-        utilisateur_id: selectedUserId,
-        category: selectedCategory, // Utilisez la catégorie sélectionnée
-      };
-      await axios.post("http://localhost:5000/expense", expense);
-      setShowModal(false);
-      if (refreshExpenses) {
-        refreshExpenses();
+  const handleAddExpense = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      
+      if (!selectedUserId || !title || !amount || !date || !selectedCategory) {
+        console.error("Tous les champs sont obligatoires");
+        return;
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [title, amount, date, selectedCategory, selectedUserId, refreshExpenses, setShowModal]);
+
+      try {
+        const expense = {
+          name: title,
+          amount: Number(amount),
+          date,
+          utilisateur_id: selectedUserId,
+          category: selectedCategory,
+        };
+
+        await axios.post("http://localhost:5000/expense", expense);
+        setShowModal(false);
+        if (refreshExpenses) {
+          refreshExpenses();
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'ajout de la dépense :", error);
+      }
+    },
+    [title, amount, date, selectedCategory, selectedUserId, refreshExpenses, setShowModal]
+  );
 
   if (!showModal) return null;
-
 
   return (
     <div className="fixed inset-0 flex justify-center items-center">
       <div className="m-auto bg-white border-4 border-c2 rounded-lg w-8.5/10 shadow-2xl">
-        <form
-          onSubmit={handleAddExpense}
-          className="flex flex-col justify-between p-2"
-        >
-          {/* Utilisateur */}
+        <form onSubmit={handleAddExpense} className="flex flex-col justify-between p-2">
+          {/* Sélection de l'utilisateur */}
           <div>
             <label htmlFor="user">Utilisateur :</label>
             <select
@@ -74,10 +83,10 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
                   {user.name}
                 </option>
               ))}
-            </select>
+              </select>
           </div>
 
-          {/* Titre */}
+          {/* Autres champs (titre, montant, date, catégorie) */}
           <div>
             <label htmlFor="title">Titre :</label>
             <input
@@ -89,7 +98,6 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             />
           </div>
 
-          {/* Montant */}
           <div>
             <label htmlFor="amount">Montant :</label>
             <input
@@ -100,14 +108,19 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
               required
             />
           </div>
-              {/* Date */}
-              <div>
-            <label htmlFor="date">Date :</label>
-            <input id="date" type="date" value={date} onChange={e => setDate(e.target.value)} required />
 
+          <div>
+            <label htmlFor="date">Date :</label>
+            <input
+              id="date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
           </div>
-           {/* Catégorie */}
-           <div>
+
+          <div>
             <label htmlFor="category">Catégorie :</label>
             <select
               id="category"
@@ -124,8 +137,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             </select>
           </div>
 
-         
-          {/* Boutons */}
+          {/* Boutons d'action */}
           <div className="flex flex-row justify-evenly">
             <button
               type="submit"
